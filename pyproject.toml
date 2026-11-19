@@ -1,0 +1,9 @@
+[project]
+name = "alaga-alerta-visao"
+version = "1.0.0"
+description = "Alaga Alerta — detecção de rua alagada, bueiro entupido e veículo submerso (YOLO) integrada ao mapa de risco."
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

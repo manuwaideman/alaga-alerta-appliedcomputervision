@@ -1,0 +1,82 @@
+{
+  "split": "test",
+  "pesos": "models/alaga_yolo.pt",
+  "geral": {
+    "mAP50": 0.7267676378739715,
+    "mAP50-95": 0.49940487365477915,
+    "precisao": 0.7456399327795928,
+    "recall": 0.6589533730158731,
+    "f1": 0.6996216580744402
+  },
+  "por_classe": {
+    "rua_alagada": {
+      "precisao": 0.902524484436898,
+      "recall": 0.7578125,
+      "f1": 0.8238620741129802,
+      "mAP50": 0.8864105214864457,
+      "mAP50-95": 0.6472375082432157
+    },
+    "bueiro_entupido": {
+      "precisao": 0.554671350797017,
+      "recall": 0.6,
+      "f1": 0.5764459475823862,
+      "mAP50": 0.5716088516746413,
+      "mAP50-95": 0.28623983253588525
+    },
+    "veiculo_submerso": {
+      "precisao": 0.7797239631048636,
+      "recall": 0.6190476190476191,
+      "f1": 0.6901573767057284,
+      "mAP50": 0.7222835404608273,
+      "mAP50-95": 0.5647372801852366
+    }
+  },
+  "velocidade_ms_por_imagem": {
+    "preprocess": 0.83,
+    "inference": 23.05,
+    "loss": 0.0,
+    "postprocess": 0.56
+  },
+  "matriz_confusao": {
+    "conf": 0.4,
+    "linhas_previsto_colunas_real": [
+      [
+        101,
+        0,
+        0,
+        16
+      ],
+      [
+        0,
+        3,
+        0,
+        2
+      ],
+      [
+        0,
+        0,
+        41,
+        14
+      ],
+      [
+        27,
+        2,
+        22,
+        0
+      ]
+    ],
+    "rotulos": [
+      "rua_alagada",
+      "bueiro_entupido",
+      "veiculo_submerso",
+      "fundo"
+    ]
+  },
+  "por_foto": {
+    "positivas": 119,
+    "positivas_confirmadas": 108,
+    "negativas": 35,
+    "negativas_com_alarme": 4,
+    "conf": 0.4
+  }
+}

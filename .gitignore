@@ -1,0 +1,22 @@
+# Ambiente e segredos
+.env
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+# Dados baixados, dataset montado, treino e ocorrências locais (gerados pelos scripts)
+data/
+runs/
+# Pesos pré-treinados da Ultralytics (baixados pelos scripts). Não casa com models/alaga_yolo.pt.
+yolo*.pt
+yoloe*.pt
+mobileclip*.ts
+# Vídeo da demonstração (vai para o YouTube, não para o Git)
+docs/video/
+# Editor / SO
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini

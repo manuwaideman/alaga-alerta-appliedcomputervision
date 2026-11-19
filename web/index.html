@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Alaga Alerta</title>
+  <meta name="description" content="Mapa de risco de alagamento alimentado por fotos de cidadãos e câmeras, com detecção por visão computacional.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%231f6feb' d='M12 2.5c-3.6 4.6-6.5 8.3-6.5 11.7a6.5 6.5 0 0 0 13 0C18.5 10.8 15.6 7.1 12 2.5z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="marca">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5c-3.6 4.6-6.5 8.3-6.5 11.7a6.5 6.5 0 0 0 13 0C18.5 10.8 15.6 7.1 12 2.5z"/></svg>
+      <div>
+        <h1>Alaga Alerta</h1>
+        <p>Mapa de risco de alagamento</p>
+      </div>
+    </div>
+    <span id="status-modelo" class="chip">verificando modelo…</span>
+  </header>
+
+  <main class="layout">
+    <aside class="painel">
+      <section class="cartao">
+        <h2>Reportar alagamento</h2>
+        <form id="form-envio">
+          <label class="upload" id="upload">
+            <input type="file" id="foto" name="imagem" accept="image/jpeg,image/png,image/webp" capture="environment" required>
+            <img id="preview" alt="" hidden>
+            <span id="upload-texto">Toque para tirar ou escolher uma foto da rua</span>
+          </label>
+
+          <div class="local">
+            <button type="button" id="btn-geo" class="secundario">Usar minha localização</button>
+            <span id="local-texto" class="dica">ou clique no mapa para marcar o local</span>
+          </div>
+
+          <label class="campo">
+            <span>Descrição (opcional)</span>
+            <textarea id="descricao" maxlength="500" rows="2" placeholder="Ex.: água na altura do joelho na esquina"></textarea>
+          </label>
+
+          <button type="submit" id="btn-enviar" class="primario">Enviar foto</button>
+          <p class="dica lgpd">Rostos e placas são borrados automaticamente antes de qualquer armazenamento. Fotos sem sinal de alagamento são descartadas.</p>
+        </form>
+      </section>
+
+      <section class="cartao" id="resultado" hidden>
+        <div class="resultado-topo">
+          <h2 id="res-titulo">Resultado</h2>
+          <span id="res-risco" class="risco"></span>
+        </div>
+        <p id="res-msg" class="dica"></p>
+        <img id="res-imagem" class="res-imagem" alt="Foto anonimizada com as detecções" hidden>
+        <ul id="res-deteccoes" class="deteccoes"></ul>
+        <p id="res-anon" class="dica"></p>
+        <p id="res-mvp" class="mvp" hidden></p>
+      </section>
+
+      <section class="cartao">
+        <div class="resultado-topo">
+          <h2>Ocorrências</h2>
+          <select id="janela" aria-label="Janela de tempo">
+            <option value="6">últimas 6 h</option>
+            <option value="24" selected>últimas 24 h</option>
+            <option value="168">últimos 7 dias</option>
+          </select>
+        </div>
+        <ul id="lista" class="lista"></ul>
+      </section>
+    </aside>
+
+    <div class="mapa-wrap">
+      <div id="mapa" role="region" aria-label="Mapa de ocorrências"></div>
+      <div class="legenda">
+        <strong>Risco</strong>
+        <span><i style="background:var(--alto)"></i>Alto</span>
+        <span><i style="background:var(--medio)"></i>Médio</span>
+        <span><i style="background:var(--baixo)"></i>Baixo</span>
+      </div>
+    </div>
+  </main>
+
+  <div id="toast" class="toast" role="status" hidden></div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="app.js"></script>
+</body>
+</html>

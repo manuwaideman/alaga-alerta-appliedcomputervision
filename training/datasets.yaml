@@ -1,0 +1,108 @@
+# Fontes do dataset do Alaga Alerta (detecção, formato YOLO).
+#
+#   python scripts/coletar_bueiros.py              # baixa as fotos de bueiro do Wikimedia Commons
+#   python scripts/prepare_dataset.py --inspecionar
+#   python scripts/prepare_dataset.py              # monta data/alaga + docs/dataset_stats.*
+#
+# Tipos de fonte:
+#   mascaras  fotos + máscara binária de água (Kaggle). Cada mancha de água vira uma caixa
+#             de rua_alagada; veículos com a base dentro d'água viram veiculo_submerso
+#             (pseudo-rótulo, ver scripts/prepare_dataset.py: veiculos_submersos).
+#   yolo      pasta já em formato YOLO (data.yaml + images/ + labels/).
+#   roboflow  Roboflow Universe; só baixa com ROBOFLOW_API_KEY (conta grátis). Sem a chave
+#             a fonte é pulada. São reforços opcionais, principalmente para bueiro_entupido.
+#
+# `mapa` (yolo/roboflow): regras regex (sem diferenciar maiúsculas) aplicadas NA ORDEM sobre
+# o nome da classe original; a primeira que casar vence. `null` = descartar.
+
+classes: [rua_alagada, bueiro_entupido, veiculo_submerso]   # ordem = índice no modelo
+divisao: {train: 0.70, val: 0.20, test: 0.10}
+semente: 42
+max_fundo: 0.30   # no máx. 30% de imagens sem caixa (ruas secas e rios: reduzem falso positivo)
+modelo_contexto: models/yolo26s.pt   # YOLO COCO usado no filtro urbano e nos pseudo-rótulos
+
+fontes:
+  # ---------------------------------------------------------------- alagamento (Kaggle)
+  - nome: cvfd
+    tipo: mascaras
+    kaggle: sunnyshabanali/close-view-flood-dataset-cvfd
+    url: https://www.kaggle.com/datasets/sunnyshabanali/close-view-flood-dataset-cvfd
+    licenca: CC BY-SA 4.0
+    imagens: data/raw/cvfd/cvfd/images/*/flooded/*.jpg
+    mascaras: data/raw/cvfd/cvfd/masks/flood/*/flooded/*.png
+    limiar: 0                 # máscara colorida (água = canal azul 255)
+    negativos: data/raw/cvfd/cvfd/images/*/non-flooded/*.jpg   # ruas/rios SEM alagamento
+    filtro_urbano: true       # descarta rios e vistas aéreas (sem nenhum objeto de rua)
+    veiculos_submersos: 0.40  # fração mínima de água logo abaixo do veículo
+    max_imagens: 1600
+    classe: rua_alagada
+    area_min: 0.02            # manchas menores que 2% da imagem são ignoradas
+
+  - nome: roadway_flooding
+    tipo: mascaras
+    kaggle: saurabhshahane/roadway-flooding-image-dataset
+    url: https://data.mendeley.com/datasets/t395bwcvbw/1
+    licenca: CC BY 4.0 (Sazara, Cetin, Iftekharuddin, 2019)
+    imagens: data/raw/roadway_flooding/Dataset/images/*.jpg
+    mascaras: data/raw/roadway_flooding/Dataset/labels/*.png
+    chave_mascara: {"^label_": "image_"}
+    limiar: 0                 # máscara 0/1
+    veiculos_submersos: 0.40
+    classe: rua_alagada
+    area_min: 0.02
+
+  - nome: flood_area_seg
+    tipo: mascaras
+    kaggle: faizalkarim/flood-area-segmentation
+    url: https://www.kaggle.com/datasets/faizalkarim/flood-area-segmentation
+    licenca: CC0
+    imagens: data/raw/flood_area_seg/Image/*.jpg
+    mascaras: data/raw/flood_area_seg/Mask/*.png
+    limiar: 127
+    filtro_urbano: true       # a maioria é vista aérea; só ficam fotos com contexto de rua
+    classe: rua_alagada
+    area_min: 0.02
+
+  # -------------------------------------------------------- bueiro entupido
+  # Fotos do Wikimedia Commons (licenças livres) revisadas manualmente; as caixas e os
+  # créditos ficam versionados em training/bueiros_commons.csv.
+  - nome: bueiros_commons
+    tipo: yolo
+    caminho: data/raw/bueiros_commons
+    gerar: python scripts/coletar_bueiros.py
+    repetir_treino: 3     # classe rara: cada foto positiva de treino entra 3x (o aumento de dados varia as cópias)
+    url: https://commons.wikimedia.org/wiki/Category:Storm_drains
+    mapa:
+      "entupido": bueiro_entupido
+
+  # ------------------------------------- reforços opcionais (Roboflow, exigem chave)
+  - nome: blocked_drain
+    tipo: roboflow
+    workspace: object-detection-x3d7w
+    projeto: blocked_drain
+    versao: null          # null = última versão publicada
+    url: https://universe.roboflow.com/object-detection-x3d7w/blocked_drain
+    mapa:
+      "unclean|block|clog|chok|leaf|leaves|garbage|trash|debris|dirty|waste": bueiro_entupido
+      "clean": null
+
+  - nome: drowning_cars
+    tipo: roboflow
+    workspace: sahar-turki-dhamad
+    projeto: drowning-cars
+    versao: null
+    url: https://universe.roboflow.com/sahar-turki-dhamad/drowning-cars
+    mapa:
+      "drown|submerg|flood": veiculo_submerso
+
+  # --------------------------------------------- fotos próprias da equipe
+  # Fotos de ruas/bueiros de SP anotadas no Roboflow/CVAT/Label Studio e
+  # exportadas em formato YOLO (pasta com data.yaml + images/ + labels/).
+  - nome: proprias
+    tipo: yolo
+    ativo: false
+    caminho: data/raw/proprias
+    mapa:
+      "rua|alag|flood": rua_alagada
+      "bueiro|drain": bueiro_entupido
+      "carro|ve[ií]culo|car|vehicle": veiculo_submerso

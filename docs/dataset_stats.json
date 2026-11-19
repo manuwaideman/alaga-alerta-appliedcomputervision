@@ -1,0 +1,119 @@
+{
+  "classes": [
+    "rua_alagada",
+    "bueiro_entupido",
+    "veiculo_submerso"
+  ],
+  "splits": {
+    "train": {
+      "imagens": 1055,
+      "imagens_sem_caixa": 243,
+      "instancias": {
+        "rua_alagada": 898,
+        "bueiro_entupido": 34,
+        "veiculo_submerso": 508
+      },
+      "por_fonte": {
+        "bueiros_commons": 42,
+        "cvfd": 655,
+        "flood_area_seg": 51,
+        "roadway_flooding": 307
+      }
+    },
+    "val": {
+      "imagens": 309,
+      "imagens_sem_caixa": 71,
+      "instancias": {
+        "rua_alagada": 270,
+        "bueiro_entupido": 5,
+        "veiculo_submerso": 137
+      },
+      "por_fonte": {
+        "bueiros_commons": 8,
+        "cvfd": 198,
+        "flood_area_seg": 15,
+        "roadway_flooding": 88
+      }
+    },
+    "test": {
+      "imagens": 154,
+      "imagens_sem_caixa": 35,
+      "instancias": {
+        "rua_alagada": 128,
+        "bueiro_entupido": 5,
+        "veiculo_submerso": 63
+      },
+      "por_fonte": {
+        "bueiros_commons": 7,
+        "cvfd": 96,
+        "flood_area_seg": 7,
+        "roadway_flooding": 44
+      }
+    }
+  },
+  "fontes": {
+    "cvfd": {
+      "classes_origem": {
+        "mascara": 725,
+        "veiculo_pseudo_rotulo": 342
+      },
+      "mapeamento": {
+        "mascara": "rua_alagada",
+        "veiculo_pseudo_rotulo": "veiculo_submerso"
+      },
+      "imagens": 4491,
+      "negativos_disponiveis": 3878,
+      "descartadas": {
+        "descartada_sem_contexto_urbano": 2614,
+        "descartada_mascara_pequena": 15
+      }
+    },
+    "roadway_flooding": {
+      "classes_origem": {
+        "mascara": 453,
+        "veiculo_pseudo_rotulo": 366
+      },
+      "mapeamento": {
+        "mascara": "rua_alagada",
+        "veiculo_pseudo_rotulo": "veiculo_submerso"
+      },
+      "imagens": 440,
+      "negativos_disponiveis": 0,
+      "descartadas": {
+        "descartada_mascara_pequena": 1
+      }
+    },
+    "flood_area_seg": {
+      "classes_origem": {
+        "mascara": 122
+      },
+      "mapeamento": {
+        "mascara": "rua_alagada"
+      },
+      "imagens": 74,
+      "negativos_disponiveis": 0,
+      "descartadas": {
+        "descartada_sem_contexto_urbano": 216
+      }
+    },
+    "bueiros_commons": {
+      "classes_origem": {
+        "bueiro_entupido": 44
+      },
+      "mapeamento": {
+        "bueiro_entupido": "bueiro_entupido"
+      },
+      "imagens": 177,
+      "negativos_disponiveis": 133
+    }
+  },
+  "urls": {
+    "cvfd": "https://www.kaggle.com/datasets/sunnyshabanali/close-view-flood-dataset-cvfd",
+    "roadway_flooding": "https://data.mendeley.com/datasets/t395bwcvbw/1",
+    "flood_area_seg": "https://www.kaggle.com/datasets/faizalkarim/flood-area-segmentation",
+    "bueiros_commons": "https://commons.wikimedia.org/wiki/Category:Storm_drains"
+  },
+  "repetir_treino": {
+    "bueiros_commons": 3
+  }
+}

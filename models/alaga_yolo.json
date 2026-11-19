@@ -1,0 +1,9 @@
+{
+  "pesos": "models/alaga_yolo.pt",
+  "run_dir": "runs/train/alaga",
+  "modelo_base": "models/yolo26n.pt",
+  "epocas_max": 50,
+  "imgsz": 448,
+  "data": "data/alaga/data.yaml",
+  "treinado_em": "2026-11-10T16:43:39.047976+00:00"
+}

@@ -1,0 +1,129 @@
+:root {
+  --bg: #f3f5f8;
+  --cartao: #ffffff;
+  --texto: #14202b;
+  --suave: #5b6b7a;
+  --borda: #dde3ea;
+  --azul: #1f6feb;
+  --azul-escuro: #1557c0;
+  --alto: #d7263d;
+  --medio: #ef8a17;
+  --baixo: #e3b505;
+  --ok: #2a9d5c;
+  --raio: 12px;
+  --sombra: 0 1px 2px rgba(16, 24, 40, .06), 0 2px 8px rgba(16, 24, 40, .06);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f151c;
+    --cartao: #17202a;
+    --texto: #e7edf3;
+    --suave: #9aa9b8;
+    --borda: #2a3644;
+    --sombra: 0 1px 2px rgba(0, 0, 0, .3);
+  }
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body {
+  font: 15px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--texto);
+  display: flex;
+  flex-direction: column;
+}
+
+.topo {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 10px 16px; background: var(--cartao); border-bottom: 1px solid var(--borda);
+}
+.marca { display: flex; align-items: center; gap: 10px; }
+.marca svg { width: 30px; height: 30px; fill: var(--azul); }
+.marca h1 { font-size: 18px; margin: 0; letter-spacing: -.01em; }
+.marca p { margin: 0; font-size: 13px; color: var(--suave); }
+
+.chip { font-size: 12px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--borda); color: var(--suave); white-space: nowrap; }
+.chip.ok { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 40%, transparent); }
+.chip.erro { color: var(--alto); border-color: color-mix(in srgb, var(--alto) 40%, transparent); }
+
+.layout { flex: 1; display: grid; grid-template-columns: 390px 1fr; min-height: 0; }
+.painel { overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 14px; }
+.mapa-wrap { position: relative; min-height: 0; }
+#mapa { position: absolute; inset: 0; }
+
+.cartao { background: var(--cartao); border: 1px solid var(--borda); border-radius: var(--raio); padding: 14px; box-shadow: var(--sombra); }
+.cartao h2 { font-size: 15px; margin: 0 0 10px; }
+
+.upload {
+  display: grid; place-items: center; min-height: 150px; border: 1.5px dashed var(--borda); border-radius: 10px;
+  cursor: pointer; text-align: center; color: var(--suave); overflow: hidden; position: relative; padding: 10px;
+}
+.upload:hover { border-color: var(--azul); }
+.upload input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.upload img { max-width: 100%; max-height: 220px; border-radius: 6px; }
+
+.local { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 12px 0; }
+.campo { display: grid; gap: 4px; font-size: 13px; color: var(--suave); }
+textarea, select {
+  font: inherit; color: var(--texto); background: var(--bg); border: 1px solid var(--borda); border-radius: 8px; padding: 8px;
+}
+textarea { resize: vertical; width: 100%; }
+select { padding: 4px 8px; font-size: 13px; }
+
+button { font: inherit; border-radius: 8px; cursor: pointer; border: 1px solid transparent; }
+.primario { width: 100%; margin-top: 12px; padding: 10px; background: var(--azul); color: #fff; font-weight: 600; }
+.primario:hover { background: var(--azul-escuro); }
+.primario:disabled { opacity: .6; cursor: progress; }
+.secundario { padding: 6px 10px; background: transparent; color: var(--azul); border-color: var(--borda); font-size: 13px; }
+.dica { font-size: 12.5px; color: var(--suave); margin: 0; }
+.lgpd { margin-top: 10px; }
+
+.resultado-topo { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
+.resultado-topo h2 { margin: 0; }
+.risco { font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 999px; color: #fff; white-space: nowrap; }
+.risco.alto { background: var(--alto); }
+.risco.medio { background: var(--medio); }
+.risco.baixo { background: var(--baixo); color: #3b2f00; }
+.risco.nenhum { background: var(--suave); }
+.mvp { margin: 8px 0 0; padding: 8px 10px; border-radius: 8px; font-size: 14px; font-weight: 600; }
+.mvp.ok { background: #e7f6ec; color: #17633a; border: 1px solid #a6dcb8; }
+.mvp.falha { background: #fdf3e2; color: #8a5300; border: 1px solid #f0cf94; }
+.res-imagem { width: 100%; border-radius: 8px; margin: 10px 0; display: block; }
+
+.deteccoes { list-style: none; margin: 0 0 8px; padding: 0; display: grid; gap: 6px; }
+.deteccoes li { display: grid; grid-template-columns: 1fr auto; gap: 2px 8px; font-size: 13px; }
+.barra { grid-column: 1 / -1; height: 5px; border-radius: 3px; background: var(--borda); overflow: hidden; }
+.barra > i { display: block; height: 100%; background: var(--azul); }
+.deteccoes li.abaixo { opacity: .55; }
+
+.lista { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; max-height: 320px; overflow-y: auto; }
+.lista li { display: flex; gap: 10px; align-items: center; padding: 6px; border-radius: 8px; cursor: pointer; }
+.lista li:hover { background: var(--bg); }
+.lista img { width: 48px; height: 48px; object-fit: cover; border-radius: 6px; flex: none; }
+.lista .info { min-width: 0; font-size: 13px; }
+.lista .info strong { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lista .vazio { color: var(--suave); font-size: 13px; cursor: default; }
+.lista .vazio:hover { background: none; }
+
+.legenda {
+  position: absolute; right: 12px; bottom: 22px; z-index: 500; background: var(--cartao); color: var(--texto);
+  border: 1px solid var(--borda); border-radius: 10px; padding: 8px 12px; font-size: 12.5px; display: grid; gap: 3px; box-shadow: var(--sombra);
+}
+.legenda i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; }
+
+.popup img { width: 220px; max-width: 100%; border-radius: 6px; display: block; margin-bottom: 6px; }
+.popup p { margin: 2px 0; }
+
+.toast {
+  position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); z-index: 1000; max-width: calc(100% - 32px);
+  background: var(--texto); color: var(--cartao); padding: 10px 14px; border-radius: 10px; font-size: 14px; box-shadow: var(--sombra);
+}
+
+@media (max-width: 820px) {
+  body { height: auto; }
+  .layout { grid-template-columns: 1fr; }
+  .mapa-wrap { order: -1; height: 55vh; }
+  .painel { overflow: visible; padding: 12px 16px; }
+}
