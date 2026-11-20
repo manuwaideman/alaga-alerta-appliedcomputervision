@@ -24,7 +24,7 @@ evidência, vira uma **ocorrência confirmada no mapa de risco** do MVP.
 | Métricas do treino (mAP, precisão, recall) | [docs/metricas.md](docs/metricas.md) (gerado por `scripts/evaluate.py`) |
 | Treino | `scripts/train.py` (modelo entregue: CPU local) e [notebooks/treino_colab.ipynb](notebooks/treino_colab.ipynb) (GPU) |
 | PDF | [docs/Relatorio_AlagaAlerta.pdf](docs/Relatorio_AlagaAlerta.pdf) |
-| Vídeo de demonstração | [preencher com o link do YouTube] |
+| Vídeo de demonstração | https://youtu.be/9nsNcAaGB0U?is=moNaPz0XPyqvZloi |
 | Integração com a API central do MVP | [alaga_vision/mvp.py](alaga_vision/mvp.py) (ver [seção](#integração-com-a-api-central-do-mvp)) |
 
 ## Arquitetura
